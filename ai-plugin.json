@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Edu Finder",
+  "name_for_model": "edu_finder",
+  "description_for_human": "Search schools, universities, and language centers by country",
+  "description_for_model": "Use this plugin to find education institutions in any country. Query should contain keywords like 'Chinese language school Thailand'.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "http://localhost:5055/openapi.yaml"
+  },
+  "logo_url": "http://localhost:5055/static/logo.png",
+  "contact_email": "admin@example.com",
+  "legal_info_url": "http://localhost:5055/legal"
+}

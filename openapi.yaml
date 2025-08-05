@@ -1,0 +1,50 @@
+openapi: 3.0.0
+info:
+  title: Edu Finder Plugin
+  description: Search educational institutions by country via Google
+  version: "1.0.0"
+servers:
+  - url: http://localhost:5055
+paths:
+  /search:
+    get:
+      summary: Search for educational institutions
+      operationId: search
+      parameters:
+        - name: query
+          in: query
+          required: false
+          description: Search keyword, e.g. "Chinese language school Thailand"
+          schema:
+            type: string
+        - name: country
+          in: query
+          required: false
+          description: Country name to auto-generate the query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful search
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  query:
+                    type: string
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        link:
+                          type: string
+                        snippet:
+                          type: string
+                  status:
+                    type: string
+                  debug:
+                    type: object
