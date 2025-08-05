@@ -19,7 +19,8 @@ async def search(query: str):
 
     url = (
         f"https://www.googleapis.com/customsearch/v1"
-        f"?key={AIzaSyCRq0dc3AoCmdIasQKCxEATkDttdYs1VDY}&cx={a35a28d6dd49f410b}&q={query}"
+        f"?key={GOOGLE_API_KEY}&cx={SEARCH_ENGINE_ID}&q={query}"
+        f"&num=10"
     )
 
     response = requests.get(url)
