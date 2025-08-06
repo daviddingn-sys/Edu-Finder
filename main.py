@@ -1,33 +1,35 @@
-from fastapi import FastAPI
-from fastapi.responses import JSONResponse
 import os
 import requests
-
-app = FastAPI()
 
 GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
 SEARCH_ENGINE_ID = os.environ.get("SEARCH_ENGINE_ID")
 
-@app.get("/")
-async def root():
-    return {"message": "Welcome to the Edu Finder Plugin!"}
+def handler(request):
+    try:
+        # 获取 query 参数
+        query = request.args.get("query", "")
+        if not query:
+            return {
+                "statusCode": 400,
+                "body": "Missing 'query' parameter"
+            }
 
-@app.get("/search")
-async def search(query: str):
-    if not GOOGLE_API_KEY or not SEARCH_ENGINE_ID:
-        return JSONResponse(status_code=500, content={"error": "Missing API key or Search Engine ID"})
+        # 调用 Google Search API
+        url = "https://www.googleapis.com/customsearch/v1"
+        params = {
+            "key": GOOGLE_API_KEY,
+            "cx": SEARCH_ENGINE_ID,
+            "q": query
+        }
+        response = requests.get(url, params=params)
 
-    url = (
-        f"https://www.googleapis.com/customsearch/v1"
-        f"?key={GOOGLE_API_KEY}&cx={SEARCH_ENGINE_ID}&q={query}"
-        f"&num=10"
-    )
+        return {
+            "statusCode": 200,
+            "body": response.text
+        }
 
-    response = requests.get(url)
-    if response.status_code != 200:
-        return JSONResponse(status_code=500, content={"error": "Google API request failed"})
-
-    results = response.json().get("items", [])
-    simplified = [{"title": item["title"], "link": item["link"]} for item in results]
-
-    return {"results": simplified}
+    except Exception as e:
+        return {
+            "statusCode": 500,
+            "body": f"Error: {str(e)}"
+        }
