@@ -1,12 +1,8 @@
 {
-  "version": 2,
-  "functions": {
-    "main.py": {
-      "runtime": "vercel-python@0.7.1",
-      "maxDuration": 10
-    }
-  },
-  "routes": [
-    { "src": "/(.*)", "dest": "/main.py" }
+  "buildCommand": "pip install -r requirements.txt",
+  "outputDirectory": ".",
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/main.py" }
   ]
 }
